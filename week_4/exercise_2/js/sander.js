@@ -1,9 +1,26 @@
 const apiUrl = "https://pokeapi.co/api/v2/pokemon/ditto/";
 const apiUrl2 = "https://randomuser.me/api/";
+const apiUrl3 = "https://api.rawg.io/api/games";
+
+let pageNumber = 2;
+let pageSize = 26;
+
+let genre = "";
+const queryString = document.location.search;
+const combinedApiUrl = `${apiUrl3}${queryString}`;
+let giveMeQueryStrings = new URLSearchParams(queryString);
+
+console.log("A", giveMeQueryStrings.has("genre"));
+console.log("B", giveMeQueryStrings.get("genre"));
+
+if (giveMeQueryStrings.has("genre") !== null) {
+	genre = giveMeQueryStrings.get("genre");
+	console.log(genre);
+}
 
 const wrapperDiv = document.querySelector(".wrapper");
 
-fetch(apiUrl2)
+fetch(combinedApiUrl)
 	.then(function(response) {
 		if (response.status === 200) {
 			return response.json();
@@ -12,10 +29,11 @@ fetch(apiUrl2)
 		}
 	})
 	.then(function(json) {
-		const results = json.results;
-		// pas in results array into function as an argument
-		getName(results);
-		getImage(results);
+		const results = json;
+		//console.log(results);
+		//pass in results array into function as an argument
+		//getName(results);
+		//getImage(results);
 	})
 	.catch(function(error) {
 		console.log(error);
